@@ -1,13 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import App from './App.tsx';
 import './index.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+import TenantApp from './TenantApp.tsx';
+import PublicApp from './PublicApp.tsx';
+
+const hostname = window.location.hostname;
+const root = ReactDOM.createRoot(document.getElementById('root')!);
+
+const isTenant = hostname.includes("localhost") && hostname !== "localhost";
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      {isTenant ? <TenantApp /> : <PublicApp />}
     </BrowserRouter>
   </React.StrictMode>
 );

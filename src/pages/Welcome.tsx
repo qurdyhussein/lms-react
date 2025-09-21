@@ -16,7 +16,7 @@ const Welcome = () => {
       <img
         src={lmsLogo}
         alt="LMS Logo"
-        className="w-32 h-32 mb-6 animate-grow"
+        className="w-32 h-32 mb-6 rounded-full border-4 border-blue-500 shadow-lg animate-grow"
       />
 
       <h1 className="text-4xl font-bold text-gray-800 mb-4 animate-fade-in">
