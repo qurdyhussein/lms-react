@@ -6,9 +6,9 @@ import { BASE_DOMAIN } from "../constants/env";
 
 const RegisterInstitution = () => {
   const [formData, setFormData] = useState({
-    institution_name: "",
+    name: "",
     schema_name: "",
-    domain_url: "",
+    domain: "",
     plan: "free",
     location: "",
     contacts: "",
@@ -44,9 +44,9 @@ const RegisterInstitution = () => {
       if (!token) throw new Error("No token found. Please login first.");
 
       const payload = new FormData();
-      payload.append("institution_name", formData.institution_name);
+      payload.append("name", formData.name);
       payload.append("schema_name", formData.schema_name);
-      payload.append("domain_url", formData.domain_url);
+      payload.append("domain", formData.domain);
       payload.append("plan", formData.plan);
       payload.append("location", formData.location);
       payload.append("contacts", formData.contacts);
@@ -74,12 +74,14 @@ const RegisterInstitution = () => {
       }
 
       const data = await response.json();
-      toast.success(`🎉 ${data.message}`);
-      setAdminInfo({
-        registration_number: data.institution.registration_number,
-        password: data.institution.default_password,
-      });
-      setShowSuccessModal(true);
+  console.log("Provisioning response:", data); // Debugging
+
+  toast.success(`🎉 ${data.message}`);
+  setAdminInfo({
+    registration_number: data.admin_login.reg_number,
+    password: data.admin_login.default_password,
+  });
+  setShowSuccessModal(true);
     } catch (err: any) {
       toast.error(`❌ ${err.message}`);
     } finally {
@@ -106,10 +108,10 @@ const RegisterInstitution = () => {
           🏫 Register Your Institution
         </h2>
 
-        <input type="text" name="institution_name" placeholder="Institution Name" value={formData.institution_name} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <input type="text" name="name" placeholder="Institution Name" value={formData.name} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
         <input type="text" name="schema_name" placeholder="Schema Name" value={formData.schema_name} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        <input type="text" name="domain_url" placeholder="Preferred Subdomain" value={formData.domain_url} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
-        <p className="text-sm text-green-600">🌐 Preview: http://{formData.domain_url || "yourname"}.{BASE_DOMAIN}</p>
+        <input type="text" name="domain" placeholder="Preferred Subdomain" value={formData.domain} onChange={handleChange} required className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400" />
+        <p className="text-sm text-green-600">🌐 Preview: http://{formData.domain || "yourname"}.{BASE_DOMAIN}</p>
         <select name="plan" value={formData.plan} onChange={handleChange} className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
           <option value="free">🎁 Free Plan</option>
           <option value="premium">💎 Premium Plan</option>
@@ -134,9 +136,9 @@ const RegisterInstitution = () => {
           <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg animate-fade-in">
             <h3 className="text-xl font-bold text-blue-700 mb-4">🚀 Confirm Launch</h3>
             <ul className="text-gray-700 space-y-2">
-              <li><strong>Institution:</strong> {formData.institution_name}</li>
+              <li><strong>Institution:</strong> {formData.name}</li>
               <li><strong>Schema:</strong> {formData.schema_name}</li>
-              <li><strong>Subdomain:</strong> http://{formData.domain_url}.{BASE_DOMAIN}</li>
+              <li><strong>Subdomain:</strong> http://{formData.domain}.{BASE_DOMAIN}</li>
               <li><strong>Plan:</strong> {formData.plan}</li>
               <li><strong>Location:</strong> {formData.location}</li>
               <li><strong>Contacts:</strong> {formData.contacts}</li>
@@ -160,16 +162,16 @@ const RegisterInstitution = () => {
           <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md animate-fade-in text-center">
             <h3 className="text-2xl font-bold text-green-600 mb-2 animate-bounce">🎉 Success!</h3>
             <p className="text-gray-700 mb-4">
-              Your institution <strong>{formData.institution_name}</strong> has been created successfully.
+              Your institution <strong>{formData.name}</strong> has been created successfully.
             </p>
             <p className="text-blue-600 font-medium mb-2">
               🌐 <a
-                href={`http://${formData.domain_url}.${BASE_DOMAIN}/login`}
+                href={`http://${formData.domain}.${BASE_DOMAIN}/login`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="underline hover:text-blue-800 transition"
               >
-                http://{formData.domain_url}.{BASE_DOMAIN}/login
+                http://{formData.domain}.{BASE_DOMAIN}/login
               </a>
             </p>
             {adminInfo && (
@@ -181,7 +183,7 @@ const RegisterInstitution = () => {
             )}
             <button
               onClick={() =>
-                window.location.href = `http://${formData.domain_url}.${BASE_DOMAIN}/login`
+                window.location.href = `http://${formData.domain}.${BASE_DOMAIN}/login`
               }
               className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition"
             >

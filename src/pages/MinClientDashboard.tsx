@@ -79,12 +79,12 @@ const MinClientDashboard = () => {
     }
 
     const updatedFields = {
-      institution_name: updatedName,
+      name: updatedName,
       location: updatedLocation,
       contacts: updatedContacts,
       website: updatedWebsite,
       plan: updatedPlan,
-      domain_url: updatedDomain,
+      domain: updatedDomain,
     };
 
     try {
@@ -143,9 +143,9 @@ const MinClientDashboard = () => {
             {/* 🏫 Institution Overview */}
             <div className="bg-gradient-to-r from-blue-100 to-green-100 rounded-md p-4">
               <div className="flex items-center gap-3 mb-2">
-                {institution.logo && (
+                {institution.logo_url && (
                   <img
-                    src={`http://127.0.0.1:8000/${institution.logo}`}
+                    src={institution.logo_url || "/default-logo.png"}
                     alt={`${institution.name} Logo`}
                     className="w-10 h-10 rounded-full border border-blue-500 shadow-sm"
                   />

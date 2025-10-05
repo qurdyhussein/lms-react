@@ -10,7 +10,8 @@ const TenantApp = () => {
       <Route path="/login" element={<TenantLoginPage />} />
       <Route path="/student-dashboard" element={<StudentDashboard />} />
       <Route path="/instructor-dashboard" element={<InstructorDashboard />} />
-      <Route path="/admin-dashboard" element={<AdminDashboard />} />
+      <Route path="/admin/dashboard" element={<AdminDashboard />} />
+      <Route path="/tenant/:schema/login" element={<TenantLoginPage />} />
     </Routes>
   );
 };
